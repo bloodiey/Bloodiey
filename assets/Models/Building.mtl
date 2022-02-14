@@ -1,0 +1,68 @@
+newmtl Glass1Mtl
+Material Color
+Ka 0.157281 0.325037 0.598942
+Kd 0.157281 0.325037 0.598942
+Ks 0.0622955 0.12874 0.237228 
+
+d 0.803922
+
+Ns 0
+
+map_Bump Glass1_nmap.png
+
+newmtl Glass5Mtl
+Material Color
+Ka 0.157281 0.325037 0.598942
+Kd 0.157281 0.325037 0.598942
+Ks 0.0622955 0.12874 0.237228 
+
+d 1
+
+Ns 0
+
+map_Bump Glass1_nmap.png
+
+newmtl Pillar1Mtl
+Material Color
+Ka 0.00258583 0.00258583 0.00258583
+Kd 0.00258583 0.00258583 0.00258583
+Ks 0.00102419 0.00102419 0.00102419 
+
+d 1
+
+Ns 0
+
+map_Bump Glass1_nmap.png
+
+newmtl Concrete1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.027838 0.0274636 0.028595 
+
+d 1
+
+Ns 0
+
+map_Ka Concrete1_diff.png
+map_Kd Concrete1_diff.png
+map_d Concrete1_diff.png
+
+map_Ns Concrete1_spec.png
+
+newmtl Concrete11Mtl
+Material Color
+Ka 0.124741 0.113921 0.121986
+Kd 0.124741 0.113921 0.121986
+Ks 0.00929442 0.00848823 0.00908913 
+
+d 1
+
+Ns 0
+
+map_Ka Concrete1_diff.png
+map_Kd Concrete1_diff.png
+map_d Concrete1_diff.png
+
+map_Ns Concrete1_spec.png
+
