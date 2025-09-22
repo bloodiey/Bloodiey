@@ -77,6 +77,7 @@ public class FormClass extends JFrame {
 
     }
     public void Close(){
+    	
         frame.setVisible(false);
         //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }

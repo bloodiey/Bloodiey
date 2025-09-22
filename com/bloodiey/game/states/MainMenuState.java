@@ -7,6 +7,8 @@ import com.bloodiey.GGL.TiledImage;
 import com.bloodiey.game.State;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JOptionPane;
 import com.bloodiey.GGL.Image;
 
@@ -154,7 +156,9 @@ public class MainMenuState extends State {
 			}
 			if(curselect == 2) 
 			{
+				gc.getWindow().dispatchEvent(new WindowEvent(gc.getWindow(), WindowEvent.WINDOW_CLOSING));
 				gc.exit();
+				gc.stop();
 				//cantplay.play();
 				
 			}
@@ -232,7 +236,7 @@ public class MainMenuState extends State {
 		}
 		else
 		{
-			r.drawText("NEW GAME",gc.getWidth()-100,32+32+16,0xff060270);
+			r.drawText("NEW GAME",gc.getWidth()-100,32+32+16,0xffffffff);
 		}
 		if (curselect == 1) 
 		{
@@ -240,7 +244,7 @@ public class MainMenuState extends State {
 		}
 		else
 		{
-			r.drawText("LOAD GAME",gc.getWidth()-100,32+32+32,0xff060270);
+			r.drawText("LOAD GAME",gc.getWidth()-100,32+32+32,0xffffffff);
 		}
 		if (curselect == 2) 
 		{
@@ -248,7 +252,7 @@ public class MainMenuState extends State {
 		}
 		else
 		{
-			r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xff060270);
+			r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xffffffff);
 		}
 		
 		if(gc.isWideScreen) {

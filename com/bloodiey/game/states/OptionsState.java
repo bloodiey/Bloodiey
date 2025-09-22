@@ -242,8 +242,8 @@ public class OptionsState extends State {
 					err.stop();
 					choose.stop();
 					isOnSettings = false;
-					gc.getWindow().hide();
-					gc.stop();
+					gc.getWindow().Close();
+					//gc.stop();
 					gc2.start();
 					
 				}
