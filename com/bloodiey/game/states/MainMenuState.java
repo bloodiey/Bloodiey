@@ -32,7 +32,7 @@ public class MainMenuState extends State {
 	int dir = 4;
 	int frame = 0;
 	public MainMenuState() {
-		sigma = new TiledImage("/sprites/bloodiey_isometric_less.png",128,128);
+		sigma = new TiledImage("/sprites/bloodiey_isometric.png",128,128);
 		pax = new SoundClip("/music/bgm/SillyCat.mid");
 		choose = new SoundClip("/sounds/snd_beep.wav");
 		play = new SoundClip("/sounds/snd_done.wav");
