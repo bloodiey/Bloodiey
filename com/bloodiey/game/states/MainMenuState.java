@@ -28,11 +28,17 @@ public class MainMenuState extends State {
 	public Image bgc; 
 	float bgcX=-181-(181+256),bgcY=270;
 	public float bloodieyX=480/2-64,bloodieyY=270/2-64;
-	float i= 0;
+	public float bloodieyOffsetY = 0;
+	public float YSpeed = 0;
+	public boolean isJumping;
+	float i;
 	int curselect = 0;
 	int dir = 4;
 	int frame = 0;
 	float offsetifnotwide = 160/2;
+	public SoundClip Mus;
+	public boolean isOnMenu = true;
+	public boolean canJump = true;
 	public MainMenuState() {
 		sigma = new TiledImage("/sprites/bloodiey_isometric.png",128,128);
 		pax = new SoundClip("/music/bgm/SillyCat.mid");
@@ -42,7 +48,7 @@ public class MainMenuState extends State {
 		bga = new Image("/sprites/bg/Knocker.png");
 		bgb = new Image("/sprites/bg/Knocker.png");
 		bgc = new Image("/sprites/bg/Knocker.png");
-		
+		Mus = new SoundClip("/music/bgm/bgm_world1.mid");
 	}
 	
 	public void update(GameLoop gc, float dt) {
@@ -96,74 +102,132 @@ public class MainMenuState extends State {
 			bgaX += 1;
 		}
 		*/
+		
 		float mult = 1f;
 		float addconY = 0.91f*mult;
 		float addconX = 1f*mult;
-		bgaX -= addconX;
-		bgaY -= addconY;
-		bgbX -= addconX;
-		bgbY -= addconY;
-		bgcX -= addconX;
-		bgcY -= addconY;
+		bgaX -= addconX*60*dt;
+		bgaY -= addconY*60*dt;
+		bgbX -= addconX*60*dt;
+		bgbY -= addconY*60*dt;
+		bgcX -= addconX*60*dt;
+		bgcY -= addconY*60*dt;
 		
-		int maxselect = 2;
 		
-		if(gc.getInp().isKeyDown(KeyEvent.VK_DOWN)) 
-		{
-			if(gc.hasSound) {
-				choose.play();
-			}
-
-			if (curselect >= maxselect) 
-			{
-				curselect = 0;
-			}
-			else
-			{
-				curselect += 1;
-			}
+		if(isOnMenu) {
+			int maxselect = 2;
 			
-		}
-		if(gc.getInp().isKeyDown(KeyEvent.VK_UP)) 
-		{
-			if(gc.hasSound) {
-				choose.play();
-			}
-			if (curselect <= 0) 
-			{
-				curselect = maxselect;
-			}
-			else
-			{
-				curselect -= 1;
-			}
-			
-		}
-		if(gc.getInp().isKeyDown(KeyEvent.VK_Z) || gc.getInp().isKeyDown(KeyEvent.VK_ENTER)) 
-		{
-			if(curselect == 0) 
+			if(gc.getInp().isKeyDown(KeyEvent.VK_DOWN)) 
 			{
 				if(gc.hasSound) {
-					play.play();
+					choose.play();
 				}
-				JOptionPane.showMessageDialog(null,"Coming Soon");
-			}
-			if(curselect == 1) 
-			{
-				if(gc.hasSound) {
-					play.play();
+	
+				if (curselect >= maxselect) 
+				{
+					curselect = 0;
 				}
-			}
-			if(curselect == 2) 
-			{
-				gc.getWindow().dispatchEvent(new WindowEvent(gc.getWindow(), WindowEvent.WINDOW_CLOSING));
-				gc.exit();
-				gc.stop();
-				//cantplay.play();
+				else
+				{
+					curselect += 1;
+				}
 				
 			}
+			if(gc.getInp().isKeyDown(KeyEvent.VK_UP)) 
+			{
+				if(gc.hasSound) {
+					choose.play();
+				}
+				if (curselect <= 0) 
+				{
+					curselect = maxselect;
+				}
+				else
+				{
+					curselect -= 1;
+				}
+				
+			}
+			if(gc.getInp().isKeyDown(KeyEvent.VK_Z) || gc.getInp().isKeyDown(KeyEvent.VK_ENTER)) 
+			{
+				if(curselect == 0) 
+				{
+					if(gc.hasSound) {
+						play.play();
+					}
+					isOnMenu = false;
+					//JOptionPane.showMessageDialog(null,"Coming Soon");
+				}
+				if(curselect == 1) 
+				{
+					if(gc.hasSound) {
+						play.play();
+					}
+				}
+				if(curselect == 2) 
+				{
+					gc.getWindow().dispatchEvent(new WindowEvent(gc.getWindow(), WindowEvent.WINDOW_CLOSING));
+					pax.stop();
+					gc.exit();
+					gc.stop();
+					//cantplay.play();
+					
+				}
+			}
+			
+
+			
+			//-181
+			//0
+
+			//System.out.println(i);
+			if(gc.hasMusic) {
+				if(!pax.isRunning()) 
+				{
+					pax.play();
+				}
+			}
+			
 		}
-		
+		else 
+		{
+			YSpeed +=1*dt*4;
+			if(bloodieyOffsetY > 0) {
+				bloodieyOffsetY = 0;
+				YSpeed = -0.5f;
+				canJump = true;
+			}
+			else 
+			{
+				bloodieyOffsetY += YSpeed;
+			}
+			
+			if(canJump && (gc.getInp().isKeyDown(KeyEvent.VK_Z) || gc.getInp().isKeyDown(KeyEvent.VK_ENTER)))
+			{
+				YSpeed = -2.5f;
+				canJump = false;
+			}
+			if(gc.hasMusic) {
+				pax.stop();
+			}
+			if(gc.hasMusic) {
+				if(!Mus.isRunning()) 
+				{
+					Mus.play();
+				}
+			}
+		}
+		if (i < 16 && canJump == true) 
+		{
+			i += 1 * dt *24*mult;
+			frame = (int)i;	
+			
+		}
+		else 
+		{
+			i = 0;
+			frame = (int)i;	
+		}
 		if(bgaY<=-270) 
 		{
 			bgaY = 270;
@@ -178,27 +242,6 @@ public class MainMenuState extends State {
 		{
 			bgcY = 270;
 			bgcX = -181-(181+256);
-		}
-		
-		//-181
-		//0
-		if (i < 16) 
-		{
-			i += 1 * dt *24*mult;
-			frame = (int)i;	
-			
-		}
-		else 
-		{
-			i = 0;
-			frame = (int)i;	
-		}
-		//System.out.println(i);
-		if(gc.hasMusic) {
-			if(!pax.isRunning()) 
-			{
-				pax.play();
-			}
 		}
 		super.update(gc, dt);
 	}
@@ -218,49 +261,54 @@ public class MainMenuState extends State {
 			r.drawImage(bgb, (int)bgbX-(int)offsetifnotwide, (int)bgbY);
 			r.drawImage(bgc, (int)bgcX-(int)offsetifnotwide, (int)bgcY);
 		}
-		/*
-		r.drawText("BGAX: "+ bgaX, 0, 13, 0xffff0000);
-		r.drawText("BGAY: "+ bgaY, 0, 13+13, 0xff0000ff);
-		r.drawText("BGBX: "+ bgbX, 0, 13+13+13, 0xffff0000);
-		r.drawText("BGBY: "+ bgbY, 0, 13+13+13+13, 0xff0000ff);
-		r.drawText("BGCX: "+ bgcX, 0, 13+13+13+13+13, 0xffff0000);
-		r.drawText("BGCY: "+ bgcY, 0, 13+13+13+13+13+13, 0xff0000ff);
-		*/
-		//r.drawText("Cur Selected: "+ curselect, 0, 13, 0xffff0000);
-		r.drawText("Version: "+ version,0,gc.getHeight()-6,0xffFFDE59);
-		r.drawText("BLOODIEY'S NIGHT",gc.getWidth()-100,32,0xffE4080A);
-		
-		if (curselect == 0) 
-		{
-			r.drawText("NEW GAME",gc.getWidth()-100,32+32+16,0xffFFDE59);
+		if(isOnMenu) {
+			/*
+			r.drawText("BGAX: "+ bgaX, 0, 13, 0xffff0000);
+			r.drawText("BGAY: "+ bgaY, 0, 13+13, 0xff0000ff);
+			r.drawText("BGBX: "+ bgbX, 0, 13+13+13, 0xffff0000);
+			r.drawText("BGBY: "+ bgbY, 0, 13+13+13+13, 0xff0000ff);
+			r.drawText("BGCX: "+ bgcX, 0, 13+13+13+13+13, 0xffff0000);
+			r.drawText("BGCY: "+ bgcY, 0, 13+13+13+13+13+13, 0xff0000ff);
+			*/
+			//r.drawText("Cur Selected: "+ curselect, 0, 13, 0xffff0000);
+			r.drawText("Version: "+ version,0,gc.getHeight()-6,0xffFFDE59);
+			r.drawText("BLOODIEY'S NIGHT",gc.getWidth()-100,32,0xffE4080A);
+			
+			if (curselect == 0) 
+			{
+				r.drawText("NEW GAME",gc.getWidth()-100,32+32+16,0xffFFDE59);
+			}
+			else
+			{
+				r.drawText("NEW GAME",gc.getWidth()-100,32+32+16,0xffffffff);
+			}
+			if (curselect == 1) 
+			{
+				r.drawText("LOAD GAME",gc.getWidth()-100,32+32+32,0xffFFDE59);
+			}
+			else
+			{
+				r.drawText("LOAD GAME",gc.getWidth()-100,32+32+32,0xffffffff);
+			}
+			if (curselect == 2) 
+			{
+				r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xffFFDE59);
+			}
+			else
+			{
+				r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xffffffff);
+			}
 		}
-		else
+		else 
 		{
-			r.drawText("NEW GAME",gc.getWidth()-100,32+32+16,0xffffffff);
+			
 		}
-		if (curselect == 1) 
-		{
-			r.drawText("LOAD GAME",gc.getWidth()-100,32+32+32,0xffFFDE59);
-		}
-		else
-		{
-			r.drawText("LOAD GAME",gc.getWidth()-100,32+32+32,0xffffffff);
-		}
-		if (curselect == 2) 
-		{
-			r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xffFFDE59);
-		}
-		else
-		{
-			r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xffffffff);
-		}
-		
 		if(gc.isWideScreen) {
-			r.drawTiledImage(sigma, (int)bloodieyX, (int)bloodieyY, frame, dir);
+			r.drawTiledImage(sigma, (int)bloodieyX, (int)bloodieyY+(int)bloodieyOffsetY, frame, dir);
 		}
 		else
 		{
-			r.drawTiledImage(sigma, (int)bloodieyX-(int)offsetifnotwide, (int)bloodieyY, frame, dir);
+			r.drawTiledImage(sigma, (int)bloodieyX-(int)offsetifnotwide, (int)bloodieyY+(int)bloodieyOffsetY, frame, dir);
 		}
 		if(gc.getFps() < 15) {
 			r.drawText("FPS: "+gc.getFps(), 0, 0, 0xffff0000);
