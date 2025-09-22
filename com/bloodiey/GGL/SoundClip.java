@@ -17,6 +17,8 @@ public class SoundClip {
 	private Clip clip = null;
 	private FloatControl gainControl;
 	
+	public boolean ended = false;
+	
 	public SoundClip(String path) {
 		try {
 			InputStream audioSrc = SoundClip.class.getResourceAsStream(path);
@@ -48,6 +50,7 @@ public class SoundClip {
 		}
 	}
 	public void play() {
+		ended = false;
 		if(clip==null) {
 			return;	
 		}
@@ -59,12 +62,14 @@ public class SoundClip {
 		}
 	}
 	public void stop() {
+		ended = true;
 		if(clip.isRunning())
 			clip.stop();
 	}
 	public void close() {
 		
 		stop();
+		ended = true;
 		clip.drain();
 		clip.close();
 	}
@@ -94,5 +99,6 @@ public class SoundClip {
 	public void setGainControl(FloatControl gainControl) {
 		this.gainControl = gainControl;
 	}
+	
 	
 }

@@ -15,7 +15,7 @@ public class State extends Abstract {
 	@Override
 	public void render(GameLoop gc, GenericRender r) {
 		// TODO Auto-generated method stub
-		r.drawText("FPS: " + gc.getFps(), 0, 0, 0xffffffff);
+		//r.drawText("FPS: " + gc.getFps(), 0, 0, 0xffffffff);
 	}
 
 }

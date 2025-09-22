@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Image;
 import java.awt.Point;
 //import java.awt.Toolkit;
-
+import java.awt.event.WindowEvent;
 //import javax.swing.ImageIcon;
 //import java.awt.image.BufferedImage;
 import java.io.File;
@@ -76,7 +76,14 @@ public class FormClass extends JFrame {
         frame.setVisible(true);
 
     }
-
+    public void Close(){
+        frame.setVisible(false);
+        //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
+    public void Quit(){
+        frame.setVisible(false);
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
     public static void saveImage(String imageUrl, String destinationFile) throws Exception {
         URL url = new URL(imageUrl);
         InputStream is = url.openStream();

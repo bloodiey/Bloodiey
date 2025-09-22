@@ -7,9 +7,7 @@ import com.bloodiey.GGL.TiledImage;
 import com.bloodiey.game.State;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JOptionPane;
-
 import com.bloodiey.GGL.Image;
 
 public class MainMenuState extends State {
@@ -20,7 +18,8 @@ public class MainMenuState extends State {
 	public SoundClip play;
 	public SoundClip cantplay;
 	public Image bga;
-	public String version = "indev-v0.2";
+	public OptionsState options;
+	public String version = "indev-v0.3";
 	float bgaX=-181,bgaY=0;
 	public Image bgb; 
 	float bgbX=-181+(181+115),bgbY=270;
@@ -31,6 +30,7 @@ public class MainMenuState extends State {
 	int curselect = 0;
 	int dir = 4;
 	int frame = 0;
+	float offsetifnotwide = 160/2;
 	public MainMenuState() {
 		sigma = new TiledImage("/sprites/bloodiey_isometric.png",128,128);
 		pax = new SoundClip("/music/bgm/SillyCat.mid");
@@ -40,6 +40,7 @@ public class MainMenuState extends State {
 		bga = new Image("/sprites/bg/Knocker.png");
 		bgb = new Image("/sprites/bg/Knocker.png");
 		bgc = new Image("/sprites/bg/Knocker.png");
+		
 	}
 	
 	public void update(GameLoop gc, float dt) {
@@ -107,7 +108,10 @@ public class MainMenuState extends State {
 		
 		if(gc.getInp().isKeyDown(KeyEvent.VK_DOWN)) 
 		{
-			choose.play();
+			if(gc.hasSound) {
+				choose.play();
+			}
+
 			if (curselect >= maxselect) 
 			{
 				curselect = 0;
@@ -120,7 +124,9 @@ public class MainMenuState extends State {
 		}
 		if(gc.getInp().isKeyDown(KeyEvent.VK_UP)) 
 		{
-			choose.play();
+			if(gc.hasSound) {
+				choose.play();
+			}
 			if (curselect <= 0) 
 			{
 				curselect = maxselect;
@@ -131,21 +137,25 @@ public class MainMenuState extends State {
 			}
 			
 		}
-		if(gc.getInp().isKeyDown(KeyEvent.VK_ENTER)) 
+		if(gc.getInp().isKeyDown(KeyEvent.VK_Z) || gc.getInp().isKeyDown(KeyEvent.VK_ENTER)) 
 		{
 			if(curselect == 0) 
 			{
-				play.play();
+				if(gc.hasSound) {
+					play.play();
+				}
 				JOptionPane.showMessageDialog(null,"Coming Soon");
 			}
 			if(curselect == 1) 
 			{
-				cantplay.play();
-				
+				if(gc.hasSound) {
+					play.play();
+				}
 			}
 			if(curselect == 2) 
 			{
-				cantplay.play();
+				gc.exit();
+				//cantplay.play();
 				
 			}
 		}
@@ -180,10 +190,11 @@ public class MainMenuState extends State {
 			frame = (int)i;	
 		}
 		//System.out.println(i);
-		
-		if(!pax.isRunning()) 
-		{
-			pax.play();
+		if(gc.hasMusic) {
+			if(!pax.isRunning()) 
+			{
+				pax.play();
+			}
 		}
 		super.update(gc, dt);
 	}
@@ -193,9 +204,16 @@ public class MainMenuState extends State {
 		
 		
 		r.clear(0xff000000);
-		r.drawImage(bga, (int)bgaX, (int)bgaY);
-		r.drawImage(bgb, (int)bgbX, (int)bgbY);
-		r.drawImage(bgc, (int)bgcX, (int)bgcY);
+		if(gc.isWideScreen) {
+			r.drawImage(bga, (int)bgaX, (int)bgaY);
+			r.drawImage(bgb, (int)bgbX, (int)bgbY);
+			r.drawImage(bgc, (int)bgcX, (int)bgcY);
+		}
+		else {
+			r.drawImage(bga, (int)bgaX-(int)offsetifnotwide, (int)bgaY);
+			r.drawImage(bgb, (int)bgbX-(int)offsetifnotwide, (int)bgbY);
+			r.drawImage(bgc, (int)bgcX-(int)offsetifnotwide, (int)bgcY);
+		}
 		/*
 		r.drawText("BGAX: "+ bgaX, 0, 13, 0xffff0000);
 		r.drawText("BGAY: "+ bgaY, 0, 13+13, 0xff0000ff);
@@ -226,15 +244,27 @@ public class MainMenuState extends State {
 		}
 		if (curselect == 2) 
 		{
-			r.drawText("OPTIONS",gc.getWidth()-100,32+32+32+16,0xffFFDE59);
+			r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xffFFDE59);
 		}
 		else
 		{
-			r.drawText("OPTIONS",gc.getWidth()-100,32+32+32+16,0xff060270);
+			r.drawText("EXIT",gc.getWidth()-100,32+32+32+16,0xff060270);
 		}
 		
-		r.drawTiledImage(sigma, (int)bloodieyX, (int)bloodieyY, frame, dir);
-		
+		if(gc.isWideScreen) {
+			r.drawTiledImage(sigma, (int)bloodieyX, (int)bloodieyY, frame, dir);
+		}
+		else
+		{
+			r.drawTiledImage(sigma, (int)bloodieyX-(int)offsetifnotwide, (int)bloodieyY, frame, dir);
+		}
+		if(gc.getFps() < 15) {
+			r.drawText("FPS: "+gc.getFps(), 0, 0, 0xffff0000);
+		}
+		else 
+		{
+			r.drawText("FPS: "+gc.getFps(), 0, 0, 0xffffffff);
+		}
 		super.render(gc, r);
 		
 	}
@@ -247,12 +277,23 @@ public class MainMenuState extends State {
         // Retrieve the refresh rate
         int refreshRate = displayMode.getRefreshRate();
 		GameLoop gc = new GameLoop(new MainMenuState());
+		OptionsState options = new OptionsState();
 		int resX = 480,resY = 270;
 		float scale = 2f;
 		gc.setWidth(resX);
 		gc.setHeight(resY);
 		gc.setScale(scale);
-		gc.setFRAMERATE(refreshRate);
+		gc.setWideScreen(true);
+		gc.setHasMusic(true);
+		gc.setHasSound(true);
+		if(options.vsyncEnabled) 
+		{
+			gc.setFRAMERATE(refreshRate);
+		}
+		else 
+		{
+			gc.setFRAMERATE(options.framerate);
+		}
 		//gc.getWindow().SetTitle("Bloodiey's Night");
 		gc.start();
 	}

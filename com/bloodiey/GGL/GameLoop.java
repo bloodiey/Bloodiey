@@ -16,23 +16,18 @@ private Thread thread;
   private FormClass window;
   public SoundClip StartChime = new SoundClip("/sounds/snd_launch.wav");
   public boolean running = false;
-  
   public double FRAMERATE = 60;
-  
   public double UPDATE_CAP = 1.0/FRAMERATE;
-  
   private int fps;
-  
   public int width = 320;
-  
   public int height = 240;
-  
   public float scale = 2F;
-  
   public String title = "Bloodiey's Night";
-  
   public String iconDir= "assets/icon/icon.png"; // default Icon for program|1|
   public String iconDirAlt= "assets/icon/icon.png"; // default Icon for program
+  public boolean isWideScreen = false; // Identificator without Options
+  public boolean hasSound = true; // Makes sound Disableable Through GameLoops
+  public boolean hasMusic = true; // Makes Music Disableable Through GameLoops
   public GameLoop(Abstract game)
   {
 	  StartChime = new SoundClip("/sounds/snd_launch.wav");
@@ -50,7 +45,25 @@ private Thread thread;
     this.thread.run();
   }
   
-  public void stop() {thread.stop();}
+  public void stop() {
+	  Bx_generic.clear(0xff000000);
+	  window.setVisible(false);
+	  window.Close();
+	  running = false;
+	  thread.stop();
+	  
+	  //window.Close();
+	  
+  }
+  public void exit() {
+	  Bx_generic.clear(0xff000000);
+	  window.setVisible(false);
+	  window.Close();
+	  running = false;
+	  thread.stop();
+	  window.Quit();
+	  
+  }
   
   public void run() {
 	 /*
@@ -190,6 +203,36 @@ public void setFRAMERATE(double fRAMERATE) {
 	FRAMERATE = fRAMERATE;
 	UPDATE_CAP = 1.0/FRAMERATE;
 	
+}
+
+
+public boolean isWideScreen() {
+	return isWideScreen;
+}
+
+
+public void setWideScreen(boolean isWideScreen) {
+	this.isWideScreen = isWideScreen;
+}
+
+
+public boolean isHasSound() {
+	return hasSound;
+}
+
+
+public void setHasSound(boolean hasSound) {
+	this.hasSound = hasSound;
+}
+
+
+public boolean isHasMusic() {
+	return hasMusic;
+}
+
+
+public void setHasMusic(boolean hasMusic) {
+	this.hasMusic = hasMusic;
 }
   
   
