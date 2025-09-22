@@ -193,8 +193,9 @@ public class MainMenuState extends State {
 		{
 			YSpeed +=1*dt*4;
 			if(bloodieyOffsetY > 0) {
-				bloodieyOffsetY = 0;
-				YSpeed = -0.5f;
+				
+				YSpeed = -0.25f;
+				bloodieyOffsetY = -0.25f;
 				canJump = true;
 			}
 			else 
