@@ -65,11 +65,14 @@ public class GameManager extends State {
 		//r.drawText("FPS: " + gc.getFps(), 0, 0, 0xffffffff);
 		super.render(gc, r);
 	}
+	
+	
 	public static void main (String args[]) {
 		int resx = 320;
 		int rexy = 240;
 		float scale = 2f;
 		GameLoop gc = new GameLoop(new GameManager());
+		FormClass win = gc.getWindow();		
 		gc.setHeight(rexy);
 		gc.setWidth(resx);
 		gc.setScale(scale);

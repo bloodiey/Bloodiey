@@ -31,8 +31,8 @@ private Thread thread;
   
   public String title = "Bloodiey's Night";
   
-  public String iconDir= "assets/icon/icon.png"; // default Icon for program
-  
+  public String iconDir= "assets/icon/icon.png"; // default Icon for program|1|
+  public String iconDirAlt= "assets/icon/icon.png"; // default Icon for program
   public GameLoop(Abstract game)
   {
 	  StartChime = new SoundClip("/sounds/snd_launch.wav");
@@ -53,7 +53,16 @@ private Thread thread;
   public void stop() {thread.stop();}
   
   public void run() {
-	this.window.SetImage(iconDir);
+	  boolean isDebug;
+	if(isDebug  = java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("-agentlib:jdwp") > 0) 
+	{
+		this.window.SetImage(iconDir);
+	}
+	else 
+	{
+		this.window.SetImage(iconDirAlt);
+	}
+	
     this.running = true;
     boolean render = false;
     double firstTime = 0.0D;
