@@ -20,6 +20,7 @@ public class MainMenuState extends State {
 	public SoundClip play;
 	public SoundClip cantplay;
 	public Image bga;
+	public String version = "indev-v0.2";
 	float bgaX=-181,bgaY=0;
 	public Image bgb; 
 	float bgbX=-181+(181+115),bgbY=270;
@@ -204,7 +205,7 @@ public class MainMenuState extends State {
 		r.drawText("BGCY: "+ bgcY, 0, 13+13+13+13+13+13, 0xff0000ff);
 		*/
 		//r.drawText("Cur Selected: "+ curselect, 0, 13, 0xffff0000);
-		r.drawText("indev-v0.2",0,gc.getHeight()-6,0xffFFDE59);
+		r.drawText("Version: "+ version,0,gc.getHeight()-6,0xffFFDE59);
 		r.drawText("BLOODIEY'S NIGHT",gc.getWidth()-100,32,0xffE4080A);
 		
 		if (curselect == 0) 
@@ -235,9 +236,6 @@ public class MainMenuState extends State {
 		r.drawTiledImage(sigma, (int)bloodieyX, (int)bloodieyY, frame, dir);
 		
 		super.render(gc, r);
-		
-		
-		
 		
 	}
 	

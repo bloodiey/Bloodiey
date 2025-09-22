@@ -53,7 +53,8 @@ private Thread thread;
   public void stop() {thread.stop();}
   
   public void run() {
-	  boolean isDebug;
+	 /*
+	boolean isDebug;
 	if(isDebug  = java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().indexOf("-agentlib:jdwp") > 0) 
 	{
 		this.window.SetImage(iconDir);
@@ -62,7 +63,7 @@ private Thread thread;
 	{
 		this.window.SetImage(iconDirAlt);
 	}
-	
+	*/
     this.running = true;
     boolean render = false;
     double firstTime = 0.0D;
