@@ -34,14 +34,16 @@ public class OptionsState extends State {
 	public double framerate = 30;
 	public boolean WideScreen = true;
 	public boolean isOnSettings = true;
+	public int curPosition = 0;
 	int refreshRate = 60;
 	int curselect = 0;
 	int resX = 480,resY = 270;
 	float scale = 2f;
+	boolean musicCheck = false;
 	public boolean isOnMenu = true;
 	public OptionsState() {
-		mus = new SoundClip("/music/bgm/Settings01.mid");
-		mus1 = new SoundClip("/music/bgm/Settings02.mid");
+		mus = new SoundClip("/music/bgm/Settings.mid");
+		mus1 = new SoundClip("/music/bgm/Settings.mid");
 		choose = new SoundClip("/sounds/snd_beep.wav");
 		play = new SoundClip("/sounds/snd_done.wav");
 		cantplay = new SoundClip("/sounds/snd_error.wav");
@@ -62,14 +64,21 @@ public class OptionsState extends State {
 	public void update(GameLoop gc, float dt) {
 		if(isOnSettings) {
 			// MUSIC HANDLER
+			/*
+			if(musicCheck == false) {
+				soundEnabled = gc.hasSound;
+				musicEnabled = gc.hasMusic;
+				musicCheck = true;
+			}
+			*/
 			gc.getWindow().SetTitle("Initial Configuration");
-			if(musicEnabled == false) 
+			if(gc.hasMusic == false) 
 			{
 				mus1.stop();
 				mus.stop();
 			}
 			// SOUND HANDLER		
-			if(soundEnabled == false) 
+			if(gc.hasSound == false) 
 			{
 				play.stop();
 				cantplay.stop();
@@ -93,7 +102,7 @@ public class OptionsState extends State {
 			
 			if(gc.getInp().isKeyDown(KeyEvent.VK_DOWN)) 
 			{
-				if(soundEnabled) {
+				if(gc.hasSound) {
 					choose.play();
 				}
 				if (curselect >= maxselect) 
@@ -108,7 +117,7 @@ public class OptionsState extends State {
 			}
 			if(gc.getInp().isKeyDown(KeyEvent.VK_UP)) 
 			{
-				if(soundEnabled) {
+				if(gc.hasSound) {
 					choose.play();
 				}	
 				if (curselect <= 0) 
@@ -133,7 +142,7 @@ public class OptionsState extends State {
 					{
 						musicEnabled = true;
 					}
-					if(soundEnabled) {
+					if(gc.hasSound) {
 						play.play();
 					}
 					
@@ -148,7 +157,7 @@ public class OptionsState extends State {
 					{
 						soundEnabled = true;
 					}
-					if(soundEnabled) {
+					if(gc.hasSound) {
 						play.play();
 					}
 				}
@@ -163,7 +172,7 @@ public class OptionsState extends State {
 						gc.setFRAMERATE(refreshRate);
 						vsyncEnabled = true;
 					}
-					if(soundEnabled) {
+					if(gc.hasSound) {
 						play.play();
 					}
 				}
@@ -176,14 +185,14 @@ public class OptionsState extends State {
 							
 						}
 						
-						if(soundEnabled) {
+						if(gc.hasSound) {
 							play.play();
 						}
 						gc.setFRAMERATE(framerate);
 					}
 					else 
 					{
-						if(soundEnabled) {
+						if(gc.hasSound) {
 							err.play();
 						}
 					}
@@ -197,7 +206,7 @@ public class OptionsState extends State {
 						scale = 4f;
 					}
 						
-					if(soundEnabled) {
+					if(gc.hasSound) {
 						play.play();
 					}
 				}
@@ -211,13 +220,13 @@ public class OptionsState extends State {
 					{
 						WideScreen = true;
 					}
-					if(soundEnabled) {
+					if(gc.hasSound) {
 						play.play();
 					}
 				}
 				if(curselect == maxselect) 
 				{
-					if(soundEnabled) {
+					if(gc.hasSound) {
 						cantplay.play();
 					}
 					
@@ -260,14 +269,14 @@ public class OptionsState extends State {
 						}
 		
 						
-						if(soundEnabled) {
+						if(gc.hasSound) {
 							cantplay.play();
 						}
 						gc.setFRAMERATE(framerate);
 					}
 					else 
 					{
-						if(soundEnabled) {
+						if(gc.hasSound) {
 							err.play();
 						}
 					}
@@ -280,7 +289,7 @@ public class OptionsState extends State {
 						scale = 1f;
 					}
 						
-					if(soundEnabled) {
+					if(gc.hasSound) {
 						play.play();
 					}
 				}
@@ -300,7 +309,7 @@ public class OptionsState extends State {
 			}
 			// MUSIC LOOP
 			
-			if(musicEnabled == true) 
+			if(gc.hasMusic == true) 
 			{
 				if(mus.isRunning() == false && musplayed == false) 
 				{
@@ -407,6 +416,15 @@ public class OptionsState extends State {
 		// Get the display mode of the screen
         DisplayMode displayMode = gd.getDisplayMode();
         
+        //Initial Config
+        if (args.length > 0) {
+            System.out.println("Arguments passed:");
+            for (String arg : args) {
+                System.out.println(arg);
+            }
+        } else {
+            System.out.println("No arguments provided.");
+        }
         // Retrieve the refresh rate
         int refreshRate = displayMode.getRefreshRate();
 		GameLoop gc = new GameLoop(new OptionsState());
@@ -416,6 +434,41 @@ public class OptionsState extends State {
 		gc.setHeight(resY);
 		gc.setScale(scale);
 		gc.setFRAMERATE(refreshRate);
+		System.out.println("Current Arguments lenght: " + args.length);
+		if(args.length == 2) 
+		{
+			int arg1 = Integer.parseInt(args[0]);
+			int arg2 = Integer.parseInt(args[1]);
+			if(arg1 == 1) 
+			{
+				System.out.println("MUSIC ENABLED, ENJOY THE SECRET SONG.");
+				gc.setHasMusic(true);
+			}
+			else 
+			{
+				System.out.println("MUSIC DISABLED BY DEFAULT PLEASE USE '1' IN ARGUMENT 1.");
+				gc.setHasMusic(false);
+			}
+			if(arg2 == 1) 
+			{
+				System.out.println("SOUND ENABLED, YOU'LL HEAR EVERY SOUND.");
+				gc.setHasSound(true);
+			}
+			else 
+			{
+				System.out.println("SOUND DISABLED BY DEFAULT PLEASE USE '1' IN ARGUMENT 2.");
+				gc.setHasSound(false);
+			}
+		}
+		else 
+		{
+			gc.setHasMusic(false);
+			gc.setHasSound(false);
+			System.out.println("2 arguments are needed Current lenght: " + args.length);
+		}
+		
+		//System.out.println("SOUND: "+gc.isHasSound());
+		//System.out.println("MUSIC: "+gc.isHasMusic());
 		//gc.getWindow().SetTitle("Bloodiey's Night");
 		gc.start();
 	}

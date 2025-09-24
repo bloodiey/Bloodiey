@@ -39,6 +39,7 @@ public class MainMenuState extends State {
 	public SoundClip Mus;
 	public boolean isOnMenu = true;
 	public boolean canJump = true;
+	public int jPosition;
 	public MainMenuState() {
 		sigma = new TiledImage("/sprites/bloodiey_isometric.png",128,128);
 		pax = new SoundClip("/music/bgm/SillyCat.mid");
@@ -49,6 +50,7 @@ public class MainMenuState extends State {
 		bgb = new Image("/sprites/bg/Knocker.png");
 		bgc = new Image("/sprites/bg/Knocker.png");
 		Mus = new SoundClip("/music/bgm/bgm_world1.mid");
+		jPosition = 0;
 	}
 	
 	public void update(GameLoop gc, float dt) {
@@ -218,16 +220,18 @@ public class MainMenuState extends State {
 				}
 			}
 		}
-		if (i < 16 && canJump == true) 
-		{
-			i += 1 * dt *24*mult;
-			frame = (int)i;	
-			
-		}
-		else 
-		{
-			i = 0;
-			frame = (int)i;	
+		if(canJump) {
+			if (i < 16) 
+			{
+				i += 1 * dt *24*mult;
+				frame = (int)i;	
+				
+			}
+			else 
+			{
+				i = 0;
+				frame = (int)i;	
+			}
 		}
 		if(bgaY<=-270) 
 		{
@@ -244,6 +248,8 @@ public class MainMenuState extends State {
 			bgcY = 270;
 			bgcX = -181-(181+256);
 		}
+		
+		jPosition += 1;
 		super.update(gc, dt);
 	}
 
