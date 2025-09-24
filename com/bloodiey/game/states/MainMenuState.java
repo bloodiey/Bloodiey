@@ -238,7 +238,7 @@ public class MainMenuState extends State {
 			}
 			else
 			{
-				spk.move(new Vector2(addconX*-1,addconY*-1));
+				spk.move(new Vector2(addconX*60*dt*-1,addconY*60*dt*-1));
 			}
 			
 			
