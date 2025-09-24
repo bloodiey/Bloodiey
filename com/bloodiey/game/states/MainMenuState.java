@@ -5,6 +5,10 @@ import com.bloodiey.GGL.GenericRender;
 import com.bloodiey.GGL.SoundClip;
 import com.bloodiey.GGL.TiledImage;
 import com.bloodiey.game.State;
+import com.bloodiey.game.entities.Spikes;
+import com.bloodiey.pencylEngine.Entity;
+import com.bloodiey.pencylEngine.Vector2;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -40,6 +44,11 @@ public class MainMenuState extends State {
 	public boolean isOnMenu = true;
 	public boolean canJump = true;
 	public int jPosition;
+	public Entity singleSpike;
+	public Image singleSpikeImage;
+	public Vector2 initPos = new Vector2(380f,270f);
+	public Vector2 DefPos = new Vector2(380f,270f);
+	public Spikes spk;
 	public MainMenuState() {
 		sigma = new TiledImage("/sprites/bloodiey_isometric.png",128,128);
 		pax = new SoundClip("/music/bgm/SillyCat.mid");
@@ -49,8 +58,10 @@ public class MainMenuState extends State {
 		bga = new Image("/sprites/bg/Knocker.png");
 		bgb = new Image("/sprites/bg/Knocker.png");
 		bgc = new Image("/sprites/bg/Knocker.png");
+		singleSpikeImage = new Image("/sprites/spike.png");
 		Mus = new SoundClip("/music/bgm/bgm_world1.mid");
 		jPosition = 0;
+		spk = new Spikes("Spike",singleSpikeImage,initPos,new Vector2(1f,1f));
 	}
 	
 	public void update(GameLoop gc, float dt) {
@@ -114,6 +125,7 @@ public class MainMenuState extends State {
 		bgbY -= addconY*60*dt;
 		bgcX -= addconX*60*dt;
 		bgcY -= addconY*60*dt;
+		
 		
 		
 		if(isOnMenu) {
@@ -219,6 +231,20 @@ public class MainMenuState extends State {
 					Mus.play();
 				}
 			}
+			
+			if(spk.position.y <= 0-(float)spk.img.getH()/2f) 
+			{
+				spk.position = new Vector2(DefPos.x,DefPos.y);
+			}
+			else
+			{
+				spk.move(new Vector2(addconX*-1,addconY*-1));
+			}
+			
+			
+			//spk.position = new Vector2((float)gc.getInp().getMouseX(),(float)gc.getInp().getMouseY());
+			
+			//singleSpike.setPosition(new Vector2((float)gc.getInp().getMouseX(),(float)gc.getInp().getMouseY()));
 		}
 		if(canJump) {
 			if (i < 16) 
@@ -232,6 +258,10 @@ public class MainMenuState extends State {
 				i = 0;
 				frame = (int)i;	
 			}
+		}
+		else 
+		{
+			frame = 5;
 		}
 		if(bgaY<=-270) 
 		{
@@ -308,14 +338,25 @@ public class MainMenuState extends State {
 		}
 		else 
 		{
-			
+			//spk.drawSpike(gc, r);
+			if(gc.isWideScreen) {
+				r.drawImage(singleSpikeImage,(int)spk.position.x-singleSpikeImage.getW()/ 2,(int)spk.position.y-singleSpikeImage.getH()/ 2);
+			}
+			else 
+			{
+				r.drawImage(singleSpikeImage,(int)spk.position.x-singleSpikeImage.getW()/ 2- (int)offsetifnotwide,(int)spk.position.y-singleSpikeImage.getH()/ 2);
+			}
 		}
 		if(gc.isWideScreen) {
+			
+			
 			r.drawTiledImage(sigma, (int)bloodieyX, (int)bloodieyY+(int)bloodieyOffsetY, frame, dir);
 		}
 		else
 		{
+			
 			r.drawTiledImage(sigma, (int)bloodieyX-(int)offsetifnotwide, (int)bloodieyY+(int)bloodieyOffsetY, frame, dir);
+			
 		}
 		if(gc.getFps() < 15) {
 			r.drawText("FPS: "+gc.getFps(), 0, 0, 0xffff0000);
@@ -324,6 +365,7 @@ public class MainMenuState extends State {
 		{
 			r.drawText("FPS: "+gc.getFps(), 0, 0, 0xffffffff);
 		}
+		
 		super.render(gc, r);
 		
 	}
@@ -345,6 +387,9 @@ public class MainMenuState extends State {
 		gc.setWideScreen(true);
 		gc.setHasMusic(true);
 		gc.setHasSound(true);
+		
+		
+		
 		if(options.vsyncEnabled) 
 		{
 			gc.setFRAMERATE(refreshRate);

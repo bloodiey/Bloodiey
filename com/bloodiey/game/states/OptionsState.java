@@ -5,6 +5,8 @@ import com.bloodiey.GGL.GenericRender;
 import com.bloodiey.GGL.SoundClip;
 import com.bloodiey.GGL.TiledImage;
 import com.bloodiey.game.State;
+import com.bloodiey.game.entities.Spikes;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;

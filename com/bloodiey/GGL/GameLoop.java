@@ -37,7 +37,9 @@ private Thread thread;
   
   
   public void start() {
-	StartChime.play();
+	if(hasSound) {
+		StartChime.play();
+	}
     this.window = new FormClass(this);
     this.thread = new Thread(this);
     this.Bx_generic = new GenericRender(this);
