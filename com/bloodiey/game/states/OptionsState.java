@@ -269,8 +269,6 @@ public class OptionsState extends State {
 							framerate = 120;
 							
 						}
-		
-						
 						if(gc.hasSound) {
 							cantplay.play();
 						}
