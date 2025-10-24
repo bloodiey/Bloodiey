@@ -9,6 +9,10 @@ She / her / Bisexual / single (again) / a newbie programmer that likes technolog
 
 ![img](art/Fedora.png)
 
+# Windows (Can look better but bleh)
+
+![img](art/Windows.png)
+
 <code>sudo echo i love cats</code>
 
 ### Main OS(es):
