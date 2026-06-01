@@ -1,17 +1,9 @@
 
 ![susy_text](art/dial/susytext1.png)
 
-# Bloodiey / BloodMoonDS
+# SkeuoKitty
 
-She / her / Bisexual / single (again) / a newbie programmer that likes technology a lot, likes to create videogame-related stuff, also I like emulation and 3D and 2D digital art in general not only furry art and retro stuff (i use a fallout terminal in linux named cool retro term)
-
-# Fedora Best Distro ever
-
-![img](art/Fedora.png)
-
-# Windows (Can look better but bleh)
-
-![img](art/Windows.png)
+She / her / Pansexual / I luv mah dragon / a newbie programmer that likes technology a lot, likes to create videogame-related stuff, also I like emulation and 3D and 2D digital art in general not only furry art and retro stuff (i use a fallout terminal in linux named cool retro term)
 
 <code>sudo echo i love cats</code>
 
@@ -24,4 +16,4 @@ She / her / Bisexual / single (again) / a newbie programmer that likes technolog
 
 # Current OC Design:
 
-![state](art/genderbend%20bloodiey2.png )
+![state](art/la%20blodi.png)
