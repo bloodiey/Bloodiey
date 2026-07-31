@@ -64,4 +64,4 @@ Complex AVI: 5299.99MXN 265.04USD 48,757.96JPY
 
 # Current OC Design:
 
-![state](art/la%20blodi.png)
+![Skeuo Kitty](art/SkueoKitty%20REF-Sheet.png)
