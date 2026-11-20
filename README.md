@@ -3,7 +3,7 @@
 
 # SkeuoKitty
 
-She / her / Pansexual / I luv mah dragon / a newbie programmer that likes technology a lot, likes to create videogame-related stuff, also I like emulation and 3D and 2D digital art in general not only furry art and retro stuff (i use a fallout terminal in linux named cool retro term)
+a newbie programmer that likes technology a lot, likes to create videogame-related stuff, also I like emulation and 3D and 2D digital art in general not only furry art and retro stuff (i use a fallout terminal in linux named cool retro term)
 
 # Comissions
 
