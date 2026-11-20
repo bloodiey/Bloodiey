@@ -1,0 +1,9 @@
+@page { size: 21.59cm 27.94cm; margin: 2cm }
+p { line-height: 115%; margin-bottom: 0.25cm; background: transparent }
+h3 { margin-top: 0.25cm; margin-bottom: 0.21cm; background: transparent; page-break-after: avoid }
+h3.western { font-family: "Liberation Serif", serif; font-weight: bold; font-size: 14pt }
+h3.cjk { font-size: 14pt; font-family: "NSimSun"; font-weight: bold }
+h3.ctl { font-family: "Lucida Sans"; font-size: 14pt; font-weight: bold }
+a:link { color: #000080; text-decoration: underline }
+a:visited { color: #800000; text-decoration: underline }
+

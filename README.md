@@ -64,4 +64,4 @@ Complex AVI: 5299.99MXN 265.04USD 48,757.96JPY
 
 # Current OC Design:
 
-![Skeuo Kitty](art/SkueoKitty%20REF-Sheet.png)
+![Skeuo Kitty](docs/art/image/Susan%20Ref-Sheet%20Rewamped.jpg)
